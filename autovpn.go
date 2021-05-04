@@ -49,7 +49,7 @@ func main() {
 					conf, err := base64.StdEncoding.DecodeString(splits[14])
 					if err == nil && chosenCountry == country {
 						fmt.Printf("[autovpn] writing config file\n")
-						f, err := os.Create("/tmp/openvpnconf")
+						f, err := os.Create("./.openvpnconf")
 						check(err)
 
 						_, err = f.Write(conf)
@@ -59,7 +59,7 @@ func main() {
 
 						fmt.Printf("[autovpn] running openvpn\n")
 
-						cmd := exec.Command("sudo", "openvpn", "/tmp/openvpnconf")
+						cmd := exec.Command( "openvpn", "./.openvpnconf")
 						cmd.Stdout = os.Stdout
 
 						c := make(chan os.Signal, 2)
@@ -72,12 +72,12 @@ func main() {
 						cmd.Start()
 						cmd.Wait()
 
-						fmt.Printf("[autovpn] try another VPN? (y/n) ")
-						var input string
-						fmt.Scanln(&input)
-						if strings.ToLower(input) == "n" {
-							os.Exit(0)
-						}
+						//fmt.Printf("[autovpn] try another VPN? (y/n) ")
+						//var input string
+						//fmt.Scanln(&input)
+						//if strings.ToLower(input) == "n" {
+						//	os.Exit(0)
+						//}
 					}
 				}
 			}
